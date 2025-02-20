@@ -1,1 +1,2 @@
 *.pkl filter=lfs diff=lfs merge=lfs -text
+faiss_store_huggingface.pkl filter=lfs diff=lfs merge=lfs -text
