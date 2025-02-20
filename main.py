@@ -13,16 +13,20 @@ from langchain.vectorstores import FAISS
 from huggingface_hub import login
 
 
+load_dotenv()
+HuggingFace_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+
+if not HUGGINGFACE_API_KEY:
+    raise ValueError("HUGGINGFACE_API_KEY is missing! Please set it in the .env file")
+
+login(token=HuggingFace_API_KEY)
+
 from langchain_community.llms import HuggingFaceEndpoint
 llm = HuggingFaceEndpoint(
     repo_id="bigscience/bloom",
     task="text-generation",
     temperature=0.6
 )
-
-from dotenv import load_dotenv
-
-load_dotenv()
 
 st.title("News Research Tool📰")
 st.sidebar.title("News Research URLs")
