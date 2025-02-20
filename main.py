@@ -6,20 +6,26 @@ import langchain
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.chains.qa_with_sources.loading import load_qa_with_sources_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import UnstructuredURLLoader
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
+from langchain_community.document_loaders import UnstructuredURLLoader
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEndpoint
 
+
+
+
+
+import os
+from dotenv import load_dotenv
 from huggingface_hub import login
-
-
+# Load .env file
 load_dotenv()
-HuggingFace_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+api_key = os.getenv("HF_API_KEY")
+if not api_key:
+    raise ValueError("API key not found. Make sure it is set in the .env file!")
+login(api_key)
 
-if not HUGGINGFACE_API_KEY:
-    raise ValueError("HUGGINGFACE_API_KEY is missing! Please set it in the .env file")
 
-login(token=HuggingFace_API_KEY)
 
 from langchain_community.llms import HuggingFaceEndpoint
 llm = HuggingFaceEndpoint(
